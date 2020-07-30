@@ -1,2 +1,2 @@
-# Pose_Estimation_PyTorch
-A PyTorch implementation of some pose estimation algorithms.
+# Pose_Estimation
+一些姿态估计深度网络模型。
