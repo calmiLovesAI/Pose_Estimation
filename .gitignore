@@ -1,4 +1,4 @@
 .idea
 __pycache__
-/openpose/data/datasets/*
-!/openpose/data/datasets/README.md
+/datasets/*
+!/datasets/README.md
