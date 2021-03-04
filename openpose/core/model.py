@@ -41,8 +41,7 @@ class Stage1(tf.keras.layers.Layer):
         x = self.l_conv3(x)
         x = self.l_conv4(x)
         l_out = self.l_conv5(x)
-        outputs = tf.concat(values=[s_out, l_out, inputs], axis=-1)
-        return s_out, l_out, outputs
+        return s_out, l_out
 
 
 class StageT(tf.keras.layers.Layer):
@@ -79,8 +78,7 @@ class StageT(tf.keras.layers.Layer):
         x = self.l_conv_5(x)
         x = self.l_conv_6(x)
         l_out = self.l_conv_7(x)
-        outputs = tf.concat(values=[s_out, l_out, inputs], axis=-1)
-        return s_out, l_out, outputs
+        return s_out, l_out
 
 
 class CPM(tf.keras.Model):
@@ -101,12 +99,18 @@ class CPM(tf.keras.Model):
         x = self.backbone(inputs, training=training)
         x = self.transfer_conv1(x)
         x = self.transfer_conv2(x)
+        f = x
 
-        s_1, l_1, x = self.stage_1(x)
-        s_2, l_2, x = self.stage_2(x)
-        s_3, l_3, x = self.stage_3(x)
-        s_4, l_4, x = self.stage_4(x)
-        s_5, l_5, x = self.stage_5(x)
-        s_6, l_6, _ = self.stage_6(x)
+        s_1, l_1 = self.stage_1(x)
+        x = tf.concat(values=[s_1, l_1, f], axis=-1)
+        s_2, l_2= self.stage_2(x)
+        x = tf.concat(values=[s_2, l_2, f], axis=-1)
+        s_3, l_3= self.stage_3(x)
+        x = tf.concat(values=[s_3, l_3, f], axis=-1)
+        s_4, l_4= self.stage_4(x)
+        x = tf.concat(values=[s_4, l_4, f], axis=-1)
+        s_5, l_5= self.stage_5(x)
+        x = tf.concat(values=[s_5, l_5, f], axis=-1)
+        s_6, l_6= self.stage_6(x)
 
         return s_1, l_1, s_2, l_2, s_3, l_3, s_4, l_4, s_5, l_5, s_6, l_6
