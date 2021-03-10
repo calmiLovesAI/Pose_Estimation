@@ -83,6 +83,19 @@ class OpenPoseCfg:
     # 网络结构参数
     batch_norm_on = False
     dropout_rate = 0
-    paf_num_filters = len(KEYPOINTS_DEF) * 2
-    heatmap_num_filters = len(JOINTS_DEF)
+    paf_num_filters = len(JOINTS_DEF) * 2
+    heatmap_num_filters = len(KEYPOINTS_DEF)
     model_output_size = (46, 46)
+
+    # this is the gaussian spot sie that will be drawn on the training labels
+    KPT_HEATMAP_GAUSSIAN_SIGMA_SQ = 0.008  # used for the size of the gaussian spot for each keypoint
+    # for lower resolution, a value too low (~0.005) here will make the vectors too sparse
+    PAF_GAUSSIAN_SIGMA_SQ = 0.0015  # similar to joint width, but works on gaussian width, tradeoff between model certainty and number of persons that can be discriminated in a frame
+
+    # 数据增强
+    image_aug_on = True
+    contrast_range = 0.5
+    brightness_range = 0.2
+    hue_range = 0.1
+    saturation_range = 0.2
+    mirror_aug_on = True
