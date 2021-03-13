@@ -58,8 +58,9 @@ class Transformer:
         return {"id": image_id, "image_raw": image_raw, "size": size, "kpts": kpts, "joints": joints, "mask": mask}
 
     def read_image(self, e):
-        image_tensor = tf.io.decode_jpeg(e['image_raw'], channels=3)
-        image_tensor = tf.convert_to_tensor(image_tensor, dtype=tf.float32)
+        image_raw = e['image_raw']
+        image_tensor = tf.io.decode_jpeg(image_raw, channels=3)
+        image_tensor = tf.image.convert_image_dtype(image_tensor, dtype=tf.float32)
         image_tensor = tf.image.resize(image_tensor, size=self.image_size)
 
         new_e = {}

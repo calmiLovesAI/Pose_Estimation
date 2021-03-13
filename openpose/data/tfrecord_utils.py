@@ -19,9 +19,11 @@ def encode_example(image_id, image_raw, size, kpts, joints, mask):
     mask = tf.constant(mask)
     mask = tf.io.serialize_tensor(mask).numpy()
 
+    image_raw = image_raw.numpy()
+
     feature = {
         'id': int64_feature(image_id),
-        'image_raw': bytes_feature(image_raw.numpy()),
+        'image_raw': bytes_feature(image_raw),
         'size': int64_feature(size),
         'kpts': bytes_feature(kpts),
         'joints': bytes_feature(joints),
