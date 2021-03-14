@@ -220,6 +220,8 @@ class Transformer:
         pafs = e["pafs"]
         kpts = e["kpts"]
 
+        print("kpts: {}, pafs: {}, mask: {}".format(kpts.shape, pafs.shape, mask.shape))
+
         kpts = tf.concat([kpts, mask], axis=-1)  # add mask as zero channel to inputs
         pafs = tf.concat([pafs, mask], axis=-1)
 

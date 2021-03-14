@@ -43,7 +43,7 @@ class TFRecordDataset:
 
         dataset = dataset.map(self.transformer.apply_mask, num_parallel_calls=tf.data.AUTOTUNE)
         dataset = dataset.map(self.label_place, num_parallel_calls=tf.data.AUTOTUNE)
-        dataset = dataset.repeat()
+        # dataset = dataset.repeat()
 
         return dataset
 
