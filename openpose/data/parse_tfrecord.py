@@ -7,7 +7,7 @@ from openpose.data.augmentation import Transformer
 
 def get_tfrecord_filenames(path):
     print("从"+path+"中提取TFRecords文件：")
-    tfrecord_files = glob.glob(path + "*.tfrecords")
+    tfrecord_files = glob.glob(path + "*")
     tfrecord_files.sort()
     if not tfrecord_files:
         raise ValueError("未找到TFRecords文件!")

@@ -6,6 +6,8 @@ class OpenPoseCfg:
     # 输入图片大小 : (H, W, C)
     input_size = (368, 368, 3)
 
+    include_mask= True
+
     # 训练超参数
     batch_size = 2
     epochs = 100

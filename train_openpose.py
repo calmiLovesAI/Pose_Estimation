@@ -8,6 +8,13 @@ from openpose.data.parse_tfrecord import get_dataset
 
 
 if __name__ == '__main__':
+
+    # GPU settings
+    gpus = tf.config.list_physical_devices("GPU")
+    if gpus:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+
     # 获取数据集
     dataset = get_dataset()
 

@@ -76,6 +76,7 @@ class Transformer:
         :param kpts_tensor - must be a tf.RaggedTensor of shape (num of keypoints(17 for coco),n,3) where n is the number of persons
         :return tf.Tensor of shape (num of keypoints(17 for coco),IMAGE_HEIGHT,IMAGE_WIDTH)"""
         kpts_tensor = kpts_tensor.to_tensor()  # seems to be mandatory for map_fn
+        print(kpts_tensor)
         all_dists = tf.map_fn(self.keypoints_layer,
                               kpts_tensor)  # ,parallel_iterations=20) for cpu it has no difference, maybe for gpu it will
 
@@ -167,18 +168,15 @@ class Transformer:
             dist_from_begin = tf.linalg.norm(vectors_from_begin, axis=-1)  # get distances from the beginning, and end
             dist_from_end = tf.linalg.norm(vectors_from_end, axis=-1)
 
-            begin_gaussian_mag = tf.exp(
-                (-(dist_from_begin ** 2) / self.paf_gaussian_sigma_sq))  # compute gaussian bells
+            begin_gaussian_mag = tf.exp((-(dist_from_begin ** 2) / self.paf_gaussian_sigma_sq))  # compute gaussian bells
             end_gaussian_mag = tf.exp((-(dist_from_end ** 2) / self.paf_gaussian_sigma_sq))
             normal_gaussian_mag = tf.exp((-(n_projections ** 2) / self.paf_gaussian_sigma_sq))
 
-            limit = (0 <= projections) & (
-                        projections <= vector_length)  # cutoff the joint before beginning and after end
+            limit = (0 <= projections) & (projections <= vector_length)  # cutoff the joint before beginning and after end
             limit = tf.cast(limit, tf.float32)
             bounded_normal_gaussian_mag = normal_gaussian_mag * limit  # bound the normal distance by the endpoints
 
-            max_magnitude = tf.math.reduce_max((begin_gaussian_mag, end_gaussian_mag, bounded_normal_gaussian_mag),
-                                               axis=0)
+            max_magnitude = tf.math.reduce_max((begin_gaussian_mag, end_gaussian_mag, bounded_normal_gaussian_mag), axis=0)
 
             vector_mag = tf.stack((max_magnitude, max_magnitude), axis=-1)
 

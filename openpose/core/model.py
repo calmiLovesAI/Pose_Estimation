@@ -83,7 +83,7 @@ class StageI(tf.keras.layers.Layer):
 
 
     def call(self, inputs, training=None, **kwargs):
-        if len(inputs) > 0:
+        if len(inputs) > 1:
             x = tf.concat(values=inputs, axis=-1)
         else:
             x = inputs[0]
