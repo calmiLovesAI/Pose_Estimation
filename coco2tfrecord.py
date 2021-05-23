@@ -113,7 +113,7 @@ if __name__ == '__main__':
             person_keypoints = np.array(person_keypoints, dtype=np.float32)
             keypoints = transform_keypts(person_keypoints, np.array(size, dtype=np.int))   # shape: (N, 18, 3(y, x, visibility))
             tr_joint = create_all_joints(keypoints)   # shape: (17, N, 5(y1, x1, y2, x2, visibility))
-            tr_keypoints = keypoints.transpose((1, 0, 2))     # shape: (18, N, 5)
+            tr_keypoints = keypoints.transpose((1, 0, 2))     # shape: (18, N, 3)
 
 
             total_mask = np.zeros(size, dtype=np.float32)

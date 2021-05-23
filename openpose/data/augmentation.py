@@ -76,7 +76,6 @@ class Transformer:
         :param kpts_tensor - must be a tf.RaggedTensor of shape (num of keypoints(17 for coco),n,3) where n is the number of persons
         :return tf.Tensor of shape (num of keypoints(17 for coco),IMAGE_HEIGHT,IMAGE_WIDTH)"""
         kpts_tensor = kpts_tensor.to_tensor()  # seems to be mandatory for map_fn
-        print(kpts_tensor)
         all_dists = tf.map_fn(self.keypoints_layer,
                               kpts_tensor)  # ,parallel_iterations=20) for cpu it has no difference, maybe for gpu it will
 
@@ -218,7 +217,6 @@ class Transformer:
         pafs = e["pafs"]
         kpts = e["kpts"]
 
-        # print("kpts: {}, pafs: {}, mask: {}".format(kpts.shape, pafs.shape, mask.shape))
 
         kpts = tf.concat([kpts, mask], axis=-1)  # add mask as zero channel to inputs
         pafs = tf.concat([pafs, mask], axis=-1)

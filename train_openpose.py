@@ -40,8 +40,8 @@ if __name__ == '__main__':
         with tf.GradientTape() as tape:
             pred = model(images, training=True)
             loss_value = loss(y_true=labels, y_pred=pred)
-        gradients = tape.gradient(target=loss_value, sources=pred.trainable_variables)
-        optimizer.apply_gradients(grads_and_vars=zip(gradients, pred.trainable_variables))
+        gradients = tape.gradient(target=loss_value, sources=model.trainable_variables)
+        optimizer.apply_gradients(grads_and_vars=zip(gradients, model.trainable_variables))
         loss_metrics.update_state(values=loss_value)
 
 
@@ -50,7 +50,7 @@ if __name__ == '__main__':
             train_images, train_labels = batch_data[0], batch_data[1]
             train_steps(train_images, train_labels)
             print("Epoch: {}/{}, step: {}, loss: {}".format(epoch,
-                                                               cfg.epochs,
-                                                               epoch,
-                                                               loss_metrics.result()))
+                                                            cfg.epochs,
+                                                            step,
+                                                            loss_metrics.result()))
         loss_metrics.reset_states()

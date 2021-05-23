@@ -16,6 +16,6 @@ class OpenPoseLoss:
     @staticmethod
     def __single_output_loss(y_true, y_pred):
         y_true = y_true[..., :-1]
-        y_pred = y_pred[..., :-1]
+        # y_pred = y_pred[..., :-1]
         return tf.losses.mean_squared_error(y_true, y_pred)
 
