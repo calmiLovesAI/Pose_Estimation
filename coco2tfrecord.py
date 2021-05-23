@@ -32,7 +32,7 @@ def map_new_kpts(keypoints):
 
 def middle_kpt(kpt1, kpt2):
     if kpt1[2] == 0 or kpt2[2] == 0:
-        return 0, 0, 0
+        return [0, 0, 0]
     else:
         return [
                 (kpt1[0] + kpt2[0]) / 2,
@@ -53,7 +53,6 @@ def transform_keypts(keypoints, size):
 
 def create_all_joints(all_keypts):
     """create a joints tensor from keypoints tensor, according to COCO joints
-    :param config: effective config dict, must include JOINTS_DEF
     :param all_keypts - tensor of shape (number of persons,number of kpts(DS_NUM_KEYPOINTS),3)
     :return tensor of shape (number of persons,number of joints(19),5)"""
 
@@ -112,9 +111,10 @@ if __name__ == '__main__':
                 continue
 
             person_keypoints = np.array(person_keypoints, dtype=np.float32)
-            keypoints = transform_keypts(person_keypoints, np.array(size, dtype=np.int))
-            tr_joint = create_all_joints(keypoints)
-            tr_keypoints = tr_joint.transpose((1, 0, 2))
+            keypoints = transform_keypts(person_keypoints, np.array(size, dtype=np.int))   # shape: (N, 18, 3(y, x, visibility))
+            tr_joint = create_all_joints(keypoints)   # shape: (17, N, 5(y1, x1, y2, x2, visibility))
+            tr_keypoints = keypoints.transpose((1, 0, 2))     # shape: (18, N, 5)
+
 
             total_mask = np.zeros(size, dtype=np.float32)
 
