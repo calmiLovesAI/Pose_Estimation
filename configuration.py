@@ -6,7 +6,8 @@ class OpenPoseCfg:
     # 输入图片大小 : (H, W, C)
     input_size = (368, 368, 3)
 
-    include_mask= True
+    # 测试图片路径
+    test_image_dir = "test_pictures/"
 
     # 训练超参数
     batch_size = 2
@@ -101,3 +102,17 @@ class OpenPoseCfg:
     hue_range = 0.1
     saturation_range = 0.2
     mirror_aug_on = True
+
+    KEYPOINTS_HEATMAP_THRESHOLD = 0.5
+    JOINT_ALIGNMENT_THRESHOLD = 0.5
+
+
+
+
+algorithms = {
+    0: OpenPoseCfg
+}
+
+
+def get_cfg():
+    return algorithms[0]

@@ -1,7 +1,10 @@
 import tensorflow as tf
 
 from openpose.core.backbone import VGG
-from configuration import OpenPoseCfg
+from configuration import get_cfg
+
+
+cfg = get_cfg()
 
 
 class ConvBlock(tf.keras.layers.Layer):
@@ -106,8 +109,9 @@ class StageI(tf.keras.layers.Layer):
 
 
 class CPM(tf.keras.Model):
-    def __init__(self):
+    def __init__(self, mode=0):
         super(CPM, self).__init__()
+        self.mode = mode
         self.paf_num_filters = OpenPoseCfg.paf_num_filters
         self.heatmap_num_filters = OpenPoseCfg.heatmap_num_filters
 
@@ -137,4 +141,7 @@ class CPM(tf.keras.Model):
         s5 = self.stage_5([s4, x], training=training)
         s6 = self.stage_6([s5, s4, x], training=training)
 
-        return [s1, s2, s3, s4, s5, s6]
+        if self.mode == 0:
+            return [s1, s2, s3, s4, s5, s6]
+        else:
+            return [s4, s6]

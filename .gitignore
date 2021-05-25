@@ -2,6 +2,7 @@
 __pycache__
 /datasets/*
 !/datasets/README.md
-test.py
 /openpose/data/tfrecords/*
 !/openpose/data/tfrecords/README.md
+/test_pictures/*
+!/test_pictures/README.md

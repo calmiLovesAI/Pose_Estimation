@@ -1,7 +1,10 @@
 import tensorflow as tf
 
 
-from configuration import OpenPoseCfg
+from configuration import get_cfg
+
+
+cfg = get_cfg()
 
 
 class Transformer:

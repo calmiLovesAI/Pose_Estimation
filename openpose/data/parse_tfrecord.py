@@ -1,9 +1,11 @@
 import tensorflow as tf
 import glob
 
-from configuration import OpenPoseCfg
+from configuration import get_cfg
 from openpose.data.augmentation import Transformer
 
+
+cfg = get_cfg()
 
 def get_tfrecord_filenames(path):
     print("从"+path+"中提取TFRecords文件：")
