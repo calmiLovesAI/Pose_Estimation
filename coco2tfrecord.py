@@ -88,7 +88,9 @@ if __name__ == '__main__':
     imgIds = coco.getImgIds(catIds=[category])
     imgIds.sort()
 
-    print("选取的图片数量：", len(imgIds))
+    # print("选取的图片数量：", len(imgIds))
+    with open(file="info.txt", mode="a+", encoding="utf-8") as f:
+        f.write("数据集中的图片总数：" + "|" + str(len(imgIds)))
 
     filename_format = OpenPoseCfg.train_tfrecords + "-{:03}.tfrecords"
     with FileSharder(tf.io.TFRecordWriter, filename_format, OpenPoseCfg.images_per_tfrecord) as writer:

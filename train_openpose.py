@@ -9,6 +9,13 @@ from openpose.data.parse_tfrecord import get_dataset
 from openpose.utils.test_image import TestImage
 
 
+def get_num_of_total_imgs():
+    with open(file="info.txt", mode="r", encoding="utf-8") as f:
+        l = f.readline()
+        num = int(l.strip().split("|")[-1])
+    return num
+
+
 if __name__ == '__main__':
 
     # GPU settings
@@ -59,11 +66,12 @@ if __name__ == '__main__':
             start_time = time.time()
             train_images, train_labels = batch_data[0], batch_data[1]
             train_steps(train_images, train_labels)
-            print("Epoch: {}/{}, step: {}, loss: {}, spend time: {}s".format(epoch,
-                                                                             cfg.epochs,
-                                                                             step,
-                                                                             loss_metrics.result(),
-                                                                             time.time() - start_time))
+            print("Epoch: {}/{}, step: {}/{}, loss: {}, spend time: {}s".format(epoch,
+                                                                                cfg.epochs,
+                                                                                step,
+                                                                                tf.math.ceil(get_num_of_total_imgs() / cfg.batch_size),
+                                                                                loss_metrics.result(),
+                                                                                time.time() - start_time))
         loss_metrics.reset_states()
 
         if epoch % cfg.save_frequency == 0:
