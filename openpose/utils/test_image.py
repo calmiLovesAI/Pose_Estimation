@@ -1,11 +1,11 @@
 import cv2
 import tensorflow as tf
 import glob
+import time
 
 from openpose.core.inference import Inference
 from draw.visualization import SkeletonDrawer
 from configuration import OpenPoseCfg as cfg
-from openpose.utils.time import TimeUtils
 
 
 def read_image(image_dir, h=cfg.input_size[0], w = cfg.input_size[1], c=cfg.input_size[2]):
@@ -36,5 +36,5 @@ class TestImage:
     def test_images(self, filenames):
         for pic_name in glob.glob(filenames + "*.jpg"):
             drawn_image = self.process_single_image(pic_name)
-            output_filename = pic_name.split(".")[0] + "@" + TimeUtils().get_format_time() + ".jpg"
+            output_filename = pic_name.split(".")[0] + "@" + time.strftime("%Y-%m-%d-%H-%M-%S") + ".jpg"
             cv2.imwrite(output_filename, drawn_image)

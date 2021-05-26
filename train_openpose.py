@@ -1,4 +1,5 @@
 import tensorflow as tf
+import time
 
 
 from openpose.core.model import CPM
@@ -55,12 +56,14 @@ if __name__ == '__main__':
 
     for epoch in range(start_epoch, cfg.epochs):
         for step, batch_data in enumerate(dataset):
+            start_time = time.time()
             train_images, train_labels = batch_data[0], batch_data[1]
             train_steps(train_images, train_labels)
-            print("Epoch: {}/{}, step: {}, loss: {}".format(epoch,
-                                                            cfg.epochs,
-                                                            step,
-                                                            loss_metrics.result()))
+            print("Epoch: {}/{}, step: {}, loss: {}, spend time: {}s".format(epoch,
+                                                                             cfg.epochs,
+                                                                             step,
+                                                                             loss_metrics.result(),
+                                                                             time.time() - start_time))
         loss_metrics.reset_states()
 
         if epoch % cfg.save_frequency == 0:
