@@ -29,8 +29,8 @@ class TFRecordDataset:
         self.label_place = label_placement_func
         self.tfrecords = tfrecord_filenames
         self.transformer = Transformer()
-        self.img_aug = OpenPoseCfg.image_aug_on
-        self.batch_size = OpenPoseCfg.batch_size
+        self.img_aug = cfg.image_aug_on
+        self.batch_size = cfg.batch_size
 
     def generate(self):
         dataset = tf.data.TFRecordDataset(filenames=self.tfrecords)
@@ -50,6 +50,6 @@ class TFRecordDataset:
 
 
 def get_dataset():
-    tfrecord_files = get_tfrecord_filenames(OpenPoseCfg.train_tfrecords)
+    tfrecord_files = get_tfrecord_filenames(cfg.train_tfrecords)
     dataset = TFRecordDataset(tfrecord_files, place_label_func).generate()
     return dataset

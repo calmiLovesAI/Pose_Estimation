@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 
-from configuration import OpenPoseCfg as cfg
+from configuration import OpenPoseCfg
 
 
 
