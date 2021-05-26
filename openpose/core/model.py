@@ -1,10 +1,8 @@
 import tensorflow as tf
 
 from openpose.core.backbone import VGG
-from configuration import get_cfg
+from configuration import OpenPoseCfg as cfg
 
-
-cfg = get_cfg()
 
 
 class ConvBlock(tf.keras.layers.Layer):

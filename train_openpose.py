@@ -32,6 +32,13 @@ if __name__ == '__main__':
     #     # (2, 46, 46, 18)
     #     # (2, 46, 46, 18)
 
+    start_epoch = 0
+    # 加载权重
+    if cfg.load_weights_before_training:
+        model.load_weights(filepath=cfg.save_model_dir + "epoch-{}".format(cfg.load_weights_from_epoch))
+        print("加载epoch-{}权重成功！".format(cfg.load_weights_from_epoch))
+        start_epoch = cfg.load_weights_from_epoch + 1
+
     loss = OpenPoseLoss()
     optimizer = tf.keras.optimizers.Adam()
     loss_metrics = tf.keras.metrics.Mean()
@@ -45,7 +52,7 @@ if __name__ == '__main__':
         loss_metrics.update_state(values=loss_value)
 
 
-    for epoch in range(cfg.epochs):
+    for epoch in range(start_epoch, cfg.epochs):
         for step, batch_data in enumerate(dataset):
             train_images, train_labels = batch_data[0], batch_data[1]
             train_steps(train_images, train_labels)
@@ -54,3 +61,8 @@ if __name__ == '__main__':
                                                             step,
                                                             loss_metrics.result()))
         loss_metrics.reset_states()
+
+        if epoch % cfg.save_frequency == 0:
+            model.save_weights(filepath=cfg.save_model_dir + "epoch-{}".format(epoch), overwrite=False, save_format="tf")
+
+    model.save_weights(filepath=cfg.save_model_dir + "the_last_epoch", overwrite=False, save_format="tf")

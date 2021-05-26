@@ -1,10 +1,8 @@
 import tensorflow as tf
 
-from configuration import get_cfg
+from configuration import OpenPoseCfg as cfg
 from openpose.core.post_processing import Skeletonizer
 
-
-cfg = get_cfg()
 
 def read_image(image_dir, h=cfg.input_size[0], w = cfg.input_size[1], c=cfg.input_size[2]):
     image = tf.io.read_file(filename=image_dir)

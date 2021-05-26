@@ -2,9 +2,8 @@ import numpy as np
 import numba
 
 
-from configuration import get_cfg
+from configuration import OpenPoseCfg as cfg
 
-cfg = get_cfg()
 
 @numba.njit
 def mark_islands(truth_islands) -> (np.ndarray, dict):

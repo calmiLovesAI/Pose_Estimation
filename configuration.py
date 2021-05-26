@@ -3,11 +3,18 @@ import collections
 
 
 class OpenPoseCfg:
-    # 输入图片大小 : (H, W, C)
-    input_size = (368, 368, 3)
+    # 模型保存
+    load_weights_before_training = False
+    load_weights_from_epoch = 0
+    save_frequency = 5
+    save_model_dir = "save/"
+
 
     # 测试图片路径
     test_image_dir = "test_pictures/"
+
+    # 输入图片大小 : (H, W, C)
+    input_size = (368, 368, 3)
 
     # 训练超参数
     batch_size = 2

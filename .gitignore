@@ -6,3 +6,5 @@ __pycache__
 !/openpose/data/tfrecords/README.md
 /test_pictures/*
 !/test_pictures/README.md
+/save/*
+!/save/README.md
