@@ -8,3 +8,4 @@ __pycache__
 !/test_pictures/README.md
 /save/*
 !/save/README.md
+info.txt
