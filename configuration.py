@@ -12,6 +12,7 @@ class OpenPoseCfg:
 
     # 测试图片路径
     test_image_dir = "test_pictures/"
+    test_images_during_training = False
 
     # 输入图片大小 : (H, W, C)
     input_size = (368, 368, 3)

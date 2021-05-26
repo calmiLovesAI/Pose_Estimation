@@ -12,7 +12,7 @@ class ConvBlock(tf.keras.layers.Layer):
         self.convs = list()
         self.acts = list()
         for i in range(3):
-            if OpenPoseCfg.batch_norm_on:
+            if cfg.batch_norm_on:
                 self.bns.append(tf.keras.layers.BatchNormalization())
             else:
                 self.bns.append(tf.keras.layers.Layer())
@@ -60,22 +60,22 @@ class Stage0(tf.keras.layers.Layer):
 class StageI(tf.keras.layers.Layer):
     def __init__(self, filters, output_filters, activation_func):
         super(StageI, self).__init__()
-        self.drop_1 = tf.keras.layers.Dropout(rate=OpenPoseCfg.dropout_rate)
+        self.drop_1 = tf.keras.layers.Dropout(rate=cfg.dropout_rate)
         self.conv_1 = ConvBlock(filters=filters)
 
-        self.drop_2 = tf.keras.layers.Dropout(rate=OpenPoseCfg.dropout_rate)
+        self.drop_2 = tf.keras.layers.Dropout(rate=cfg.dropout_rate)
         self.conv_2 = ConvBlock(filters=filters)
 
-        self.drop_3 = tf.keras.layers.Dropout(rate=OpenPoseCfg.dropout_rate)
+        self.drop_3 = tf.keras.layers.Dropout(rate=cfg.dropout_rate)
         self.conv_3 = ConvBlock(filters=filters)
 
-        self.drop_3 = tf.keras.layers.Dropout(rate=OpenPoseCfg.dropout_rate)
+        self.drop_3 = tf.keras.layers.Dropout(rate=cfg.dropout_rate)
         self.conv_3 = ConvBlock(filters=filters)
 
-        self.drop_4 = tf.keras.layers.Dropout(rate=OpenPoseCfg.dropout_rate)
+        self.drop_4 = tf.keras.layers.Dropout(rate=cfg.dropout_rate)
         self.conv_4 = ConvBlock(filters=filters)
 
-        self.drop_5 = tf.keras.layers.Dropout(rate=OpenPoseCfg.dropout_rate)
+        self.drop_5 = tf.keras.layers.Dropout(rate=cfg.dropout_rate)
         self.conv_5 = ConvBlock(filters=filters)
 
         self.conv6 = tf.keras.layers.Conv2D(filters=512, kernel_size=1, strides=1, padding="same")
@@ -107,11 +107,10 @@ class StageI(tf.keras.layers.Layer):
 
 
 class CPM(tf.keras.Model):
-    def __init__(self, mode=0):
+    def __init__(self):
         super(CPM, self).__init__()
-        self.mode = mode
-        self.paf_num_filters = OpenPoseCfg.paf_num_filters
-        self.heatmap_num_filters = OpenPoseCfg.heatmap_num_filters
+        self.paf_num_filters = cfg.paf_num_filters
+        self.heatmap_num_filters = cfg.heatmap_num_filters
 
         self.backbone = VGG()
         self.stage_0 = Stage0()
@@ -139,7 +138,4 @@ class CPM(tf.keras.Model):
         s5 = self.stage_5([s4, x], training=training)
         s6 = self.stage_6([s5, s4, x], training=training)
 
-        if self.mode == 0:
-            return [s1, s2, s3, s4, s5, s6]
-        else:
-            return [s4, s6]
+        return [s1, s2, s3, s4, s5, s6]

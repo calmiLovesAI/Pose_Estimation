@@ -5,6 +5,7 @@ from openpose.core.model import CPM
 from openpose.core.loss import OpenPoseLoss
 from configuration import OpenPoseCfg as cfg
 from openpose.data.parse_tfrecord import get_dataset
+from openpose.utils.test_image import TestImage
 
 
 if __name__ == '__main__':
@@ -64,5 +65,9 @@ if __name__ == '__main__':
 
         if epoch % cfg.save_frequency == 0:
             model.save_weights(filepath=cfg.save_model_dir + "epoch-{}".format(epoch), overwrite=False, save_format="tf")
+
+        if cfg.test_images_during_training:
+            TestImage(model).test_images(filenames=cfg.test_image_dir)
+
 
     model.save_weights(filepath=cfg.save_model_dir + "the_last_epoch", overwrite=False, save_format="tf")
