@@ -35,6 +35,7 @@ class TestImage:
 
     def test_images(self, filenames):
         for pic_name in glob.glob(filenames + "*.jpg"):
+            print("处理图片"+pic_name+".......")
             drawn_image = self.process_single_image(pic_name)
             output_filename = pic_name.split(".")[0] + "@" + time.strftime("%Y-%m-%d-%H-%M-%S") + ".jpg"
             cv2.imwrite(output_filename, drawn_image)

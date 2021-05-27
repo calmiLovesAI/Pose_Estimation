@@ -49,7 +49,7 @@ if __name__ == '__main__':
         start_epoch = cfg.load_weights_from_epoch + 1
 
     loss = OpenPoseLoss()
-    optimizer = tf.keras.optimizers.Adam()
+    optimizer = tf.keras.optimizers.Adam(learning_rate=0.0001)
     loss_metrics = tf.keras.metrics.Mean()
 
     def train_steps(images, labels):
