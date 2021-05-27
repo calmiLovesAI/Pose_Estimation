@@ -26,6 +26,7 @@ def place_label_func(label):
 
 class TFRecordDataset:
     def __init__(self, tfrecord_filenames, label_placement_func):
+        self.AUTOTUNE = tf.data.AUTOTUNE
         self.label_place = label_placement_func
         self.tfrecords = tfrecord_filenames
         self.transformer = Transformer()
@@ -34,16 +35,16 @@ class TFRecordDataset:
 
     def generate(self):
         dataset = tf.data.TFRecordDataset(filenames=self.tfrecords)
-        dataset = dataset.map(self.transformer.read_tfrecord, num_parallel_calls=tf.data.AUTOTUNE)
-        dataset = dataset.map(self.transformer.read_image, num_parallel_calls=tf.data.AUTOTUNE)
-        dataset = dataset.map(self.transformer.convert_label_to_tensors, num_parallel_calls=tf.data.AUTOTUNE)
+        dataset = dataset.map(self.transformer.read_tfrecord, num_parallel_calls=self.AUTOTUNE)
+        dataset = dataset.map(self.transformer.read_image, num_parallel_calls=self.AUTOTUNE)
+        dataset = dataset.map(self.transformer.convert_label_to_tensors, num_parallel_calls=self.AUTOTUNE)
         dataset = dataset.batch(self.batch_size)
 
         if self.img_aug:
-            dataset = dataset.map(self.transformer.image_aug, num_parallel_calls=tf.data.AUTOTUNE)
+            dataset = dataset.map(self.transformer.image_aug, num_parallel_calls=self.AUTOTUNE)
 
-        dataset = dataset.map(self.transformer.apply_mask, num_parallel_calls=tf.data.AUTOTUNE)
-        dataset = dataset.map(self.label_place, num_parallel_calls=tf.data.AUTOTUNE)
+        dataset = dataset.map(self.transformer.apply_mask, num_parallel_calls=self.AUTOTUNE)
+        dataset = dataset.map(self.label_place, num_parallel_calls=self.AUTOTUNE)
         # dataset = dataset.repeat()
 
         return dataset

@@ -1,5 +1,6 @@
 import tensorflow as tf
 import time
+import math
 
 
 from openpose.core.model import CPM
@@ -69,7 +70,7 @@ if __name__ == '__main__':
             print("Epoch: {}/{}, step: {}/{}, loss: {}, spend time: {:.5f}s".format(epoch,
                                                                                     cfg.epochs,
                                                                                     step,
-                                                                                    tf.math.ceil(get_num_of_total_imgs() / cfg.batch_size),
+                                                                                    math.ceil(get_num_of_total_imgs() / cfg.batch_size),
                                                                                     loss_metrics.result(),
                                                                                     time.time() - start_time))
         loss_metrics.reset_states()
