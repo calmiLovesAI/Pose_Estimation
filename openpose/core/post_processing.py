@@ -100,12 +100,12 @@ def find_peaks(heatmap, threshold):
     peaks, island_max = islands_max(heatmap, segmented_islands, sorted_island_hierarchy)  # get the maximum peak location (and value) for each island
     return peaks  # ,island_max
 
-spec  = [
-    ('field_y', numba.float32[:,:]),
-    ('field_x', numba.float32[:,:]),
-    ('sum_y', numba.float32),
-    ('sum_x', numba.float32)
-]
+# spec  = [
+#     ('field_y', numba.float32[:,:]),
+#     ('field_x', numba.float32[:,:]),
+#     ('sum_y', numba.float32),
+#     ('sum_x', numba.float32)
+# ]
 
 # @numba.jitclass(spec)
 class LineVectorIntegral:
