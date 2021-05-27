@@ -1,11 +1,11 @@
 import numpy as np
-import numba
+# import numba
 
 
 from configuration import OpenPoseCfg as cfg
 
 
-@numba.njit
+# @numba.njit
 def mark_islands(truth_islands) -> (np.ndarray, dict):
     """This creates an array marking separate truth islands in a truth array
     :param truth_islands:2D array bool array
@@ -41,7 +41,7 @@ def mark_islands(truth_islands) -> (np.ndarray, dict):
     return islands[1:, 1:], island_hierarchy
 
 
-@numba.njit
+# @numba.njit
 def sort_island_hierarchy(island_hierarchy):
     """converts the hierarchical island dict to a map to the top level island"""
     compact = numba.typed.Dict.empty(key_type=numba.types.uint16, value_type=numba.types.uint16)
@@ -54,7 +54,7 @@ def sort_island_hierarchy(island_hierarchy):
     return compact
 
 
-@numba.njit
+# @numba.njit
 def islands_max(heatmap, islands, island_hierarchy):
     """This returns the maximum value from values for each island from islands"""
     dim0 = islands.shape[0]
@@ -85,7 +85,7 @@ def islands_max(heatmap, islands, island_hierarchy):
     return peaks_l, islands_max_l
 
 
-@numba.njit
+# @numba.njit
 def find_peaks(heatmap, threshold):
     """
     :param heatmap:
@@ -176,7 +176,7 @@ class LineVectorIntegral:
                 self._integrate_line_high(y0, x0, y1, x1)
         return self.sum_y, self.sum_x
 
-@numba.njit
+# @numba.njit
 def kpt_paf_alignment(start_kpt, end_kpt, paf_y, paf_x):
     """This creates a score for the PAF field alignment between 2 keypoints
     by doing a vector valued line integral on the straight line between the starting point and the ending,
