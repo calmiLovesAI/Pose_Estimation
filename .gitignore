@@ -9,3 +9,5 @@ __pycache__
 /save/*
 !/save/README.md
 info.txt
+/results/*
+!/results/README.md
