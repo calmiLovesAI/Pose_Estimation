@@ -16,7 +16,8 @@ def mark_islands(truth_islands) -> (np.ndarray, dict):
     shape = (dim0 + 1, dim1 + 1)
     islands = np.zeros(shape, dtype=np.uint16)
     island_num = 1
-    island_hierarchy = numba.typed.Dict.empty(key_type=numba.types.uint16, value_type=numba.types.uint16)
+    # island_hierarchy = numba.typed.Dict.empty(key_type=numba.types.uint16, value_type=numba.types.uint16)
+    island_hierarchy = dict()
 
     for y in range(dim0):
         for x in range(dim1):
@@ -44,7 +45,8 @@ def mark_islands(truth_islands) -> (np.ndarray, dict):
 # @numba.njit
 def sort_island_hierarchy(island_hierarchy):
     """converts the hierarchical island dict to a map to the top level island"""
-    compact = numba.typed.Dict.empty(key_type=numba.types.uint16, value_type=numba.types.uint16)
+    # compact = numba.typed.Dict.empty(key_type=numba.types.uint16, value_type=numba.types.uint16)
+    compact = dict()
     for child, parent in island_hierarchy.items():
         last_parent = child
         while parent != last_parent:
@@ -61,7 +63,8 @@ def islands_max(heatmap, islands, island_hierarchy):
     dim1 = islands.shape[1]
 
     # islands_max=np.zeros(LIMIT_NUM_ISLANDS, dtype=np.float32)-1
-    islands_max_dict = numba.typed.Dict.empty(key_type=numba.types.uint16, value_type=numba.types.float32)
+    # islands_max_dict = numba.typed.Dict.empty(key_type=numba.types.uint16, value_type=numba.types.float32)
+    islands_max_dict = dict()
     for island_num in set(island_hierarchy.values()):
         islands_max_dict[island_num] = 0  # init here, because that's the only way
 

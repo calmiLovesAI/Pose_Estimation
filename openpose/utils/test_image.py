@@ -2,6 +2,7 @@ import cv2
 import tensorflow as tf
 import glob
 import time
+import os
 
 from openpose.core.inference import Inference
 from draw.visualization import SkeletonDrawer
@@ -33,9 +34,15 @@ class TestImage:
 
         return image
 
+    def _get_output_name(self, input_image_dir):
+        _, input_image_name = os.path.split(input_image_dir)
+        image_name_without_postfix, postfix = input_image_name.split(".")
+        return cfg.test_results_root + image_name_without_postfix + "@" + \
+               time.strftime("%Y-%m-%d-%H-%M-%S") + "." + postfix
+
     def test_images(self, filenames):
         for pic_name in glob.glob(filenames + "*.jpg"):
             print("处理图片"+pic_name+".......")
             drawn_image = self.process_single_image(pic_name)
-            output_filename = pic_name.split(".")[0] + "@" + time.strftime("%Y-%m-%d-%H-%M-%S") + ".jpg"
+            output_filename = self._get_output_name(input_image_dir=pic_name)
             cv2.imwrite(output_filename, drawn_image)
