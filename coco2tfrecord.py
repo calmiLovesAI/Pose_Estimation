@@ -88,9 +88,7 @@ if __name__ == '__main__':
     imgIds = coco.getImgIds(catIds=[category])
     imgIds.sort()
 
-    # print("选取的图片数量：", len(imgIds))
-    with open(file="info.txt", mode="a+", encoding="utf-8") as f:
-        f.write("数据集中的图片总数：" + "|" + str(len(imgIds)))
+    num_selected_images = 0
 
     filename_format = OpenPoseCfg.train_tfrecords + "-{:03}.tfrecords"
     with FileSharder(tf.io.TFRecordWriter, filename_format, OpenPoseCfg.images_per_tfrecord) as writer:
@@ -111,6 +109,8 @@ if __name__ == '__main__':
                     person_keypoints.append(kpts)
             if not person_keypoints:
                 continue
+            else:
+                num_selected_images += 1
 
             person_keypoints = np.array(person_keypoints, dtype=np.float32)
             keypoints = transform_keypts(person_keypoints, np.array(size, dtype=np.int))   # shape: (N, 18, 3(y, x, visibility))
@@ -142,3 +142,7 @@ if __name__ == '__main__':
                 continue
             example = encode_example(img_id, image_raw, size, tr_keypoints, tr_joint, total_mask)
             writer.write(example)
+
+    print("\n数据集中的图片总数：", num_selected_images)
+    with open(file="info.txt", mode="a+", encoding="utf-8") as f:
+        f.write("数据集中的图片总数：" + "|" + str(num_selected_images))
